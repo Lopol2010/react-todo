@@ -1,0 +1,9 @@
+{
+    "extends": "@tsconfig/recommended/tsconfig.json",
+    "compilerOptions": {
+        "sourceMap": true,
+        "strict": false,
+        "jsx": "react-jsx"
+    },
+    "include": ["src/**/*"]
+}
