@@ -34,6 +34,20 @@ module.exports = (env, options) => {
                 },
                 {
                     test: /\.sass$/,
+                    exclude: /(node_modules|bower_components|\.module\.)/,
+                    use: [
+                        {
+                            loader: isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
+                        },
+                        {
+                            loader: 'css-loader',
+                        },
+                        'postcss-loader',
+                        'sass-loader',
+                    ]
+                },
+                {
+                    test: /\.module\.sass$/,
                     exclude: /(node_modules|bower_components)/,
                     use: [
                         {
@@ -43,11 +57,6 @@ module.exports = (env, options) => {
                             loader: 'css-loader',
                             options: {
                                 modules: {
-                                    mode: resourcePath => {
-                                        if(/style\.sass/i.test('global'))
-                                            return 'global'
-                                        return 'local'
-                                    },
                                     auto: true,
                                     namedExport: true,
                                     localIdentName: isDevelopment ? "[name]__[local]--[hash:base64:5]" : "[hash:base64]",
