@@ -1,0 +1,23 @@
+$size: 25px
+.button-wrapper
+    width: $size
+    height: $size
+
+.button
+    background: white
+    border: solid 1px darkgrey
+    padding: 1px
+    &:hover
+        background-color: #a7a7a722
+        cursor: pointer
+    &-done
+        width: $size
+        height: $size
+        border-radius: $size
+
+.button-checkmark
+    background: #a5a5a5
+    $size: calc($size - 2px)
+    width: 100%
+    height: 100%
+    border-radius: 100%
