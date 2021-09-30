@@ -43,6 +43,11 @@ module.exports = (env, options) => {
                             loader: 'css-loader',
                             options: {
                                 modules: {
+                                    mode: resourcePath => {
+                                        if(/style\.sass/i.test('global'))
+                                            return 'global'
+                                        return 'local'
+                                    },
                                     auto: true,
                                     namedExport: true,
                                     localIdentName: isDevelopment ? "[name]__[local]--[hash:base64:5]" : "[hash:base64]",
