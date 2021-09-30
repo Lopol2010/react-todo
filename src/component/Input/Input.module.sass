@@ -1,7 +1,13 @@
 .input-wrapper
     text-align: center
     padding: 20px
-    padding-bottom: 10px
+    padding-bottom: 30px
+    @media screen and (max-width: 480px)
+        padding: 15px
+        padding-bottom: 20px
+    @media screen and (max-width: 320px)
+        padding: 10px
+        padding-bottom: 10px
     .input-field
         resize: none
         border: none
@@ -11,6 +17,14 @@
         text-align: center
         box-sizing: border-box
         border-bottom: solid 1px transparent
+        @media screen and (max-width: 600px)
+            width: 70%
+        @media screen and (max-width: 480px)
+            width: 80%
+            font-size: 1.05em
+        @media screen and (max-width: 400px)
+            width: 90%
+            font-size: 1.0em
         &:focus-visible
             border-bottom: solid 1px grey
             outline: none

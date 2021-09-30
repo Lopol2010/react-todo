@@ -59,7 +59,6 @@ export default function TodoApp(props) {
             <div className={style.container}>
                 <h1 className={style.title}>YOUR EVERLASTING SUMMER DAYS</h1>
                 <Input onSubmit={(text) => handleSubmit(text)} focused={false} placeholder="Type here..."></Input>
-                <br/>
 
                 <ul className={style.itemsList}>
                     {todos.map((e, i) =>

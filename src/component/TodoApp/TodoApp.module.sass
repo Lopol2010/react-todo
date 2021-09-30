@@ -1,7 +1,12 @@
 .container
-    // border: solid 1px darkgrey
     box-shadow: 1px 1px 3px #50505040
     padding: 30px 66px
+    @media screen and (max-width: 768px)
+        padding: 30px 40px
+    @media screen and (max-width: 600px)
+        padding: 25px 30px
+    @media screen and (max-width: 480px)
+        padding: 10px 15px
 
 .items-list
     margin-top: 10px
@@ -12,4 +17,10 @@
     font-family: Andalé Mono, monospace
     text-align: center
     font-size: 1.4em
+    @media screen and (max-width: 480px)
+        font-size: 1.3em
+    @media screen and (max-width: 400px)
+        font-size: 1.1em
+    @media screen and (max-width: 320px)
+        font-size: 0.9em
 
