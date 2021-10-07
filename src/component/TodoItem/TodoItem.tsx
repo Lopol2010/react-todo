@@ -13,10 +13,6 @@ export default function TodoItem(props) {
     const textareaRef = useRef(null)
 
     useEffect(() => {
-        setIsEdit(props.isEdit)
-    }, [props.isEdit])
-
-    useEffect(() => {
         if(isEdit)
         {
             textareaRef.current.focus()
@@ -26,33 +22,50 @@ export default function TodoItem(props) {
 
     function handleInput(e) {
         setText(e.target.value)
-        props.onEdit(props.todoId, { text })
+    }
+
+    function handleKeyDown(e) {
+        if(e.key == 'Enter')
+        {
+            e.preventDefault()
+        }
+    }
+
+    function handleKeyPress(e) {
+        if(e.key == 'Enter')
+        {
+            e.preventDefault()
+            props.onEdit(props.todoId, { text })
+            setIsEdit(false)
+        }
     }
 
     function handleFocus(e) {
         e.target.selectionStart = e.target.value.length
         autosize.update(textareaRef.current)
-        setTimeout(() => {
-            autosize.update(textareaRef.current)
-        }, 0)
+    }
+
+    function handleBlur(e) {
+        props.onEdit(props.todoId, { text })
+        setIsEdit(false)
     }
 
     return (
         <li className={`${style.todoItem} ${mouseOver && !isEdit ? style.todoItemHover : ''}`} title={!isEdit ? "Click to edit" : ""}
-                    onClick={e => { props.onClick(props.todoId) } } 
+                    onClick={e => { !isEdit && setIsEdit(true) } } 
                     onMouseOver={e => setMouseOver(true)} 
                     onMouseLeave={e => setMouseOver(false)}>
             <div className={`${style.todoItemTextWrapper}`}>
                 {
                     (!isEdit ?
-                    <p className={style.todoItemText}  style={{ textDecorationLine: props.done ? 'line-through' : 'none' }}>{props.text}</p>
-                    : <textarea rows={1} ref={textareaRef} onFocus={e => handleFocus(e)} className={`${style.inputField}`} onInput={handleInput} value={text}></textarea>)
-                }
-                {
-                    (isEdit ? <button className={style.buttonSave}>Click to Save!</button> : null)
+                    <p className={style.todoItemText}  style={{ textDecorationLine: props.done ? 'line-through' : 'none' }}>{text}</p>
+                    : <textarea rows={1} ref={textareaRef} onFocus={e => handleFocus(e)} onBlur={handleBlur}
+                            className={`${style.inputField}`} onInput={handleInput} 
+                            onKeyDown={e => handleKeyDown}
+                            onKeyPress={handleKeyPress} value={text}></textarea>)
                 }
             </div>
-            <Checkbox title="Complete" checked={props.done} onClick={e => { props.onDone(props.todoId); e.stopPropagation() }}></Checkbox>
+            <Checkbox title={props.done ? "Reset" : "Complete"} checked={props.done} onClick={e => { props.onDone(props.todoId); e.stopPropagation() }}></Checkbox>
         </li>
     )
 }

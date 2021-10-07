@@ -10,7 +10,7 @@ const Todos = {
     TodosArrayKey: 'TodoArray',
     load() {
         let items = localStorage.getItem(this.TodosArrayKey)
-        if (!items) return null
+        if (!items) return []
         let itemsJson = JSON.parse(items)
         return itemsJson
     },
@@ -26,8 +26,7 @@ const initialTodos = [{ text: "Buy some food", done: false },
 
 export default function TodoApp(props) {
 
-    const [todos, setTodos] = useState(initialTodos)
-    const [editId, setEditId] = useState(-1)
+    const [todos, setTodos] = useState([])
 
     function handleSubmit(text) {
         if (text?.length <= 0) return false
@@ -39,19 +38,17 @@ export default function TodoApp(props) {
 
     function handleDone(todoId) {
         let newTodos = todos.slice()
-        // newTodos.splice(todoId, 1)
         let isDone = newTodos[todoId].done
         newTodos[todoId].done = !isDone
-        if(todoId == editId)
-            setEditId(-1)
         setTodos(newTodos)
         Todos.save(newTodos)
     }
 
     useEffect(() => {
         let cachedTodos = Todos.load()
-        if (cachedTodos == null) {
-            Todos.save(todos)
+        if (cachedTodos.length == 0) {
+            setTodos(initialTodos)
+            Todos.save(initialTodos)
         } else {
             setTodos(cachedTodos)
         }
@@ -59,8 +56,7 @@ export default function TodoApp(props) {
 
     function handleItemEdit(todoId, itemData) {
         let newTodos = todos.slice()
-        // newTodos.splice(todoId, 1)
-        newTodos[todoId].text = itemData.text
+        newTodos[todoId].text = itemData.text.replace(/\s+/g, ' ')
         setTodos(newTodos)
         Todos.save(newTodos)
     }
@@ -68,9 +64,8 @@ export default function TodoApp(props) {
     let todoItemsList = (done) => {
         return todos.map((e, i) =>
             done === e.done ?
-            <TodoItem key={i} todoId={i} isEdit={i == editId} 
+            <TodoItem key={i} todoId={i} 
                 onEdit={handleItemEdit} 
-                onClick={todoId => setEditId(todoId)} 
                 onDone={todoId => handleDone(todoId)} text={e.text} done={e.done} />
             : null
         )

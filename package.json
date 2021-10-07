@@ -1,7 +1,7 @@
 {
   "name": "react-app",
   "packageManager": "yarn@3.0.2",
-  "private": true,
+  "private": false,
   "author": "Evgeniy Ryzhov <erizhov7@gmail.com>",
   "homepage": "http://lopol2010.github.io/react-todo",
   "scripts": {
