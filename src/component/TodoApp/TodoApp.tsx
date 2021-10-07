@@ -27,6 +27,7 @@ const initialTodos = [{ text: "Buy some food", done: false },
 export default function TodoApp(props) {
 
     const [todos, setTodos] = useState(initialTodos)
+    const [editId, setEditId] = useState(-1)
 
     function handleSubmit(text) {
         if (text?.length <= 0) return false
@@ -41,6 +42,8 @@ export default function TodoApp(props) {
         // newTodos.splice(todoId, 1)
         let isDone = newTodos[todoId].done
         newTodos[todoId].done = !isDone
+        if(todoId == editId)
+            setEditId(-1)
         setTodos(newTodos)
         Todos.save(newTodos)
     }
@@ -54,26 +57,37 @@ export default function TodoApp(props) {
         }
     }, [])
 
+    function handleItemEdit(todoId, itemData) {
+        let newTodos = todos.slice()
+        // newTodos.splice(todoId, 1)
+        newTodos[todoId].text = itemData.text
+        setTodos(newTodos)
+        Todos.save(newTodos)
+    }
+
+    let todoItemsList = (done) => {
+        return todos.map((e, i) =>
+            done === e.done ?
+            <TodoItem key={i} todoId={i} isEdit={i == editId} 
+                onEdit={handleItemEdit} 
+                onClick={todoId => setEditId(todoId)} 
+                onDone={todoId => handleDone(todoId)} text={e.text} done={e.done} />
+            : null
+        )
+    }
     return (
+
         <div>
             <div className={style.container}>
                 <h1 className={style.title}>YOUR EVERLASTING SUMMER DAYS</h1>
                 <Input onSubmit={(text) => handleSubmit(text)} focused={false} placeholder="Type here..."></Input>
 
                 <ul className={style.itemsList}>
-                    {todos.map((e, i) =>
-                        !e.done ?
-                        <TodoItem key={i} todoId={i} onDone={todoId => handleDone(todoId)} text={e.text} /> 
-                        : null
-                    )}
+                    {todoItemsList(false)}
                 </ul>
                 {todos.find(e => e.done) ? <Divider>Completed!</Divider> : null}
                 <ul className={style.itemsList}>
-                    {todos.map((e, i) =>
-                        e.done ?
-                        <TodoItem key={i} todoId={i} onDone={todoId => handleDone(todoId)} text={e.text} done={e.done} />
-                        : null
-                    )}
+                    {todoItemsList(true)}
                 </ul>
             </div>
         </div>

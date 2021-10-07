@@ -1,12 +1,14 @@
 
 .todo-item
-    padding: 10px
+    padding: 0.8em
     display: flex
     flex-direction: row
     flex-wrap: nowrap
     justify-content: space-between
     align-items: center
     box-shadow: 1px 1px 3px #00000031
+    &_hover
+        background: #ebebeb
 
 .todo-item__text-wrapper
     flex: 1
@@ -16,6 +18,8 @@
     margin: 0
     word-break: break-word
     width: 94%
+    cursor: default
+    font-size: 1em
     @media screen and (max-width: 480px)
         font-size: 0.95em
     @media screen and (max-width: 400px)
@@ -23,4 +27,30 @@
     @media screen and (max-width: 320px)
         font-size: 0.80em
 
+.input-field
+    font-family: Verdana, Geneva, Tahoma, sans-serif
+    resize: none
+    border: none
+    width: 94%
+    padding: 0
+    text-align: left
+    box-sizing: border-box
+    border-bottom: solid 1px transparent
+    word-break: break-word
+    font-size: 1em
+    @media screen and (max-width: 480px)
+        font-size: 0.95em
+    @media screen and (max-width: 400px)
+        font-size: 0.9em
+    @media screen and (max-width: 320px)
+        font-size: 0.80em
+    &:focus-visible
+        border-bottom: solid 1px grey
+        outline: none
+        box-sizing: border-box
 
+.button-save
+    border: none
+    background: white
+    padding: 0
+    // text-decoration: underline
